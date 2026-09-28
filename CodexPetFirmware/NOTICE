@@ -1,0 +1,31 @@
+CodexPetFirmware
+CodexPet additions and modifications:
+Copyright (C) 2026 RunDeleteParadox and contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Derived from KK / M5Stack StopWatch Avatar by Trentct and its contributors:
+https://github.com/Trentct/m5stack-stopwatch-avatar
+Upstream baseline: 2049632. Original upstream rights and notices are retained.
+
+RunDeleteParadox's attribution covers its CodexPet changes, not ownership
+of the upstream implementation or third-party libraries. The existing
+firmware license remains AGPL-3.0-or-later.
+
+CodexPet modifications include serial identity/protocol, Hub-controlled
+presentation and power states, additional/refined expressions, health
+telemetry and completion audio. Dated change records are in docs/.
+License attribution recorded on 2026-09-28.
+See THIRD_PARTY_NOTICES.md and assets/audio/README.md for provenance.

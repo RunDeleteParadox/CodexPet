@@ -1,15 +1,13 @@
-## What changed
+## Change
 
-Describe the user-visible behavior and implementation boundary.
+Describe the problem and the resulting behavior. Name the affected components.
 
 ## Validation
 
-- [ ] `pio run` succeeds
-- [ ] Uploaded to a physical StopWatch when hardware behavior changed
-- [ ] Serial output and visual/interaction result checked
-- [ ] Documentation updated
-- [ ] No build artifacts, device identifiers or credentials added
+List the checks run and their results. Separate automated checks from real
+device observations, including any physical verification still needed.
 
-## Device evidence
+## Documentation and credits
 
-Add measured performance, sanitized serial output, or a short video when relevant.
+Update current guides and both UI languages as needed. Preserve firmware
+upstream attribution and dependency notices.

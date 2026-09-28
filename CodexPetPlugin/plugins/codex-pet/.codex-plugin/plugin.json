@@ -1,0 +1,25 @@
+{
+  "name": "codex-pet",
+  "version": "1.1.0+codex.20260927201107",
+  "description": "Publish semantic Codex lifecycle states to CodexPetHub through a local Windows Named Pipe.",
+  "author": {
+    "name": "RunDeleteParadox"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Pet",
+    "shortDescription": "Codex activity on your local CodexPet.",
+    "longDescription": "Native hooks and a PowerShell worker send semantic lifecycle states to CodexPetHub, with local reconnection and IPC diagnostics.",
+    "developerName": "RunDeleteParadox",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Check the Codex Pet connection to the Hub.",
+      "Show the Codex Pet plugin status."
+    ],
+    "brandColor": "#FF9F1C"
+  },
+  "license": "AGPL-3.0-or-later"
+}

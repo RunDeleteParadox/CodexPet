@@ -1,0 +1,560 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data xml:space="preserve" name="SettingsTitle">
+    <value>CodexPet · Paramètres</value>
+  </data>
+  <data xml:space="preserve" name="DiagnosticsTitle">
+    <value>CodexPet · Diagnostics</value>
+  </data>
+  <data xml:space="preserve" name="Language">
+    <value>Langue</value>
+  </data>
+  <data xml:space="preserve" name="LanguageEnglish">
+    <value>Anglais</value>
+  </data>
+  <data xml:space="preserve" name="LanguageFrench">
+    <value>Français</value>
+  </data>
+  <data xml:space="preserve" name="PetName">
+    <value>Nom du Pet</value>
+  </data>
+  <data xml:space="preserve" name="SerialPort">
+    <value>Port USB / série</value>
+  </data>
+  <data xml:space="preserve" name="AutomaticPort">
+    <value>Automatique</value>
+  </data>
+  <data xml:space="preserve" name="BrightnessLabel">
+    <value>Luminosité (%)</value>
+  </data>
+  <data xml:space="preserve" name="ReconnectLabel">
+    <value>Reconnexion (s)</value>
+  </data>
+  <data xml:space="preserve" name="SuccessSound">
+    <value>Son de fin de réponse</value>
+  </data>
+  <data xml:space="preserve" name="SoundNone">
+    <value>Aucun</value>
+  </data>
+  <data xml:space="preserve" name="SoundFanfare">
+    <value>Fanfare · deux notes</value>
+  </data>
+  <data xml:space="preserve" name="SoundVoice">
+    <value>Voix · TA-DA !</value>
+  </data>
+  <data xml:space="preserve" name="SoundUpdateHint">
+    <value>Ce choix sera appliqué après la mise à jour audio du Pet.</value>
+  </data>
+  <data xml:space="preserve" name="SoundHint">
+    <value>Joué une fois par le Pet à la fin d’une réponse.
+Enregistre, puis choisis « Tester un état → Réponse terminée » pour l’écouter.</value>
+  </data>
+  <data xml:space="preserve" name="LaunchOnStartup">
+    <value>Lancer à l’ouverture de session</value>
+  </data>
+  <data xml:space="preserve" name="SleepOnLock">
+    <value>Dormir au verrouillage de Windows</value>
+  </data>
+  <data xml:space="preserve" name="SleepOnDisplayOff">
+    <value>Dormir quand Windows éteint l’affichage</value>
+  </data>
+  <data xml:space="preserve" name="ForgetPet">
+    <value>Oublier l’appareil associé (et son nom)</value>
+  </data>
+  <data xml:space="preserve" name="Save">
+    <value>Enregistrer</value>
+  </data>
+  <data xml:space="preserve" name="Cancel">
+    <value>Annuler</value>
+  </data>
+  <data xml:space="preserve" name="NameHint">
+    <value>Le nom sera modifiable après la première connexion.</value>
+  </data>
+  <data xml:space="preserve" name="InvalidSettings">
+    <value>Paramètres invalides</value>
+  </data>
+  <data xml:space="preserve" name="TestState">
+    <value>Tester un état</value>
+  </data>
+  <data xml:space="preserve" name="KeepTest">
+    <value>Conserver le test actif</value>
+  </data>
+  <data xml:space="preserve" name="AllExpressions">
+    <value>Toutes les expressions</value>
+  </data>
+  <data xml:space="preserve" name="Brightness">
+    <value>Luminosité</value>
+  </data>
+  <data xml:space="preserve" name="SleepPet">
+    <value>Endormir le Pet</value>
+  </data>
+  <data xml:space="preserve" name="WakePet">
+    <value>Réveiller le Pet</value>
+  </data>
+  <data xml:space="preserve" name="Reconnect">
+    <value>Reconnecter</value>
+  </data>
+  <data xml:space="preserve" name="Settings">
+    <value>Paramètres…</value>
+  </data>
+  <data xml:space="preserve" name="Diagnostics">
+    <value>Diagnostics…</value>
+  </data>
+  <data xml:space="preserve" name="Quit">
+    <value>Quitter</value>
+  </data>
+  <data xml:space="preserve" name="CodexStatus">
+    <value>Codex : {0}</value>
+  </data>
+  <data xml:space="preserve" name="PetStatus">
+    <value>Pet : {0}</value>
+  </data>
+  <data xml:space="preserve" name="StaleState">
+    <value>état périmé</value>
+  </data>
+  <data xml:space="preserve" name="Unknown">
+    <value>inconnu</value>
+  </data>
+  <data xml:space="preserve" name="Unavailable">
+    <value>indisponible</value>
+  </data>
+  <data xml:space="preserve" name="NotRecorded">
+    <value>—</value>
+  </data>
+  <data xml:space="preserve" name="None">
+    <value>aucun</value>
+  </data>
+  <data xml:space="preserve" name="Yes">
+    <value>oui</value>
+  </data>
+  <data xml:space="preserve" name="No">
+    <value>non</value>
+  </data>
+  <data xml:space="preserve" name="Awake">
+    <value>éveillé</value>
+  </data>
+  <data xml:space="preserve" name="Asleep">
+    <value>endormi</value>
+  </data>
+  <data xml:space="preserve" name="Connected">
+    <value>Connecté</value>
+  </data>
+  <data xml:space="preserve" name="Disconnected">
+    <value>Déconnecté</value>
+  </data>
+  <data xml:space="preserve" name="ConnectedPort">
+    <value>Connecté · {0}</value>
+  </data>
+  <data xml:space="preserve" name="HealthFaulted">
+    <value>Traitement arrêté — relance le Hub</value>
+  </data>
+  <data xml:space="preserve" name="HealthStalled">
+    <value>Traitement bloqué — état périmé</value>
+  </data>
+  <data xml:space="preserve" name="HealthStopping">
+    <value>Arrêt en cours</value>
+  </data>
+  <data xml:space="preserve" name="HealthStopped">
+    <value>Hub arrêté</value>
+  </data>
+  <data xml:space="preserve" name="HealthSuspended">
+    <value>Windows en veille</value>
+  </data>
+  <data xml:space="preserve" name="Health_running">
+    <value>actif</value>
+  </data>
+  <data xml:space="preserve" name="Health_starting">
+    <value>démarrage</value>
+  </data>
+  <data xml:space="preserve" name="Health_stopping">
+    <value>arrêt en cours</value>
+  </data>
+  <data xml:space="preserve" name="Health_stopped">
+    <value>arrêté</value>
+  </data>
+  <data xml:space="preserve" name="Health_stalled">
+    <value>bloqué</value>
+  </data>
+  <data xml:space="preserve" name="Health_faulted">
+    <value>en échec</value>
+  </data>
+  <data xml:space="preserve" name="Health_suspended">
+    <value>en veille</value>
+  </data>
+  <data xml:space="preserve" name="StateIdle">
+    <value>Au repos</value>
+  </data>
+  <data xml:space="preserve" name="StateThinking">
+    <value>Réfléchit</value>
+  </data>
+  <data xml:space="preserve" name="StateWorking">
+    <value>Travaille</value>
+  </data>
+  <data xml:space="preserve" name="StateWaitingForUser">
+    <value>Attend ton intervention</value>
+  </data>
+  <data xml:space="preserve" name="StateSleeping">
+    <value>Endormi</value>
+  </data>
+  <data xml:space="preserve" name="ReactionSuccess">
+    <value>Réponse terminée</value>
+  </data>
+  <data xml:space="preserve" name="ReactionError">
+    <value>Erreur</value>
+  </data>
+  <data xml:space="preserve" name="ReactionStop">
+    <value>Interrompu</value>
+  </data>
+  <data xml:space="preserve" name="ReactionWake">
+    <value>Réveil</value>
+  </data>
+  <data xml:space="preserve" name="Expression_idle">
+    <value>Au repos</value>
+  </data>
+  <data xml:space="preserve" name="Expression_listening">
+    <value>À l’écoute</value>
+  </data>
+  <data xml:space="preserve" name="Expression_thinking">
+    <value>Réfléchit</value>
+  </data>
+  <data xml:space="preserve" name="Expression_happy">
+    <value>Heureux</value>
+  </data>
+  <data xml:space="preserve" name="Expression_excited">
+    <value>Enthousiaste</value>
+  </data>
+  <data xml:space="preserve" name="Expression_curious">
+    <value>Curieux</value>
+  </data>
+  <data xml:space="preserve" name="Expression_confused">
+    <value>Perplexe</value>
+  </data>
+  <data xml:space="preserve" name="Expression_angry">
+    <value>En colère</value>
+  </data>
+  <data xml:space="preserve" name="Expression_surprised">
+    <value>Surpris</value>
+  </data>
+  <data xml:space="preserve" name="Expression_sad">
+    <value>Triste</value>
+  </data>
+  <data xml:space="preserve" name="Expression_sleepy">
+    <value>Somnolent</value>
+  </data>
+  <data xml:space="preserve" name="Expression_dizzy">
+    <value>Étourdi</value>
+  </data>
+  <data xml:space="preserve" name="Expression_working">
+    <value>Travaille</value>
+  </data>
+  <data xml:space="preserve" name="Expression_waiting">
+    <value>Attend ton intervention</value>
+  </data>
+  <data xml:space="preserve" name="Expression_success">
+    <value>Réponse terminée</value>
+  </data>
+  <data xml:space="preserve" name="Expression_error">
+    <value>Erreur</value>
+  </data>
+  <data xml:space="preserve" name="Expression_stop">
+    <value>Interrompu</value>
+  </data>
+  <data xml:space="preserve" name="Expression_wake">
+    <value>Réveil</value>
+  </data>
+  <data xml:space="preserve" name="Expression_sleep">
+    <value>Endormi</value>
+  </data>
+  <data xml:space="preserve" name="Power_boot">
+    <value>démarrage</value>
+  </data>
+  <data xml:space="preserve" name="Power_sleep">
+    <value>veille</value>
+  </data>
+  <data xml:space="preserve" name="Power_wake">
+    <value>réveil</value>
+  </data>
+  <data xml:space="preserve" name="OpenLogs">
+    <value>Ouvrir les journaux</value>
+  </data>
+  <data xml:space="preserve" name="ExportDiagnostics">
+    <value>Exporter le diagnostic…</value>
+  </data>
+  <data xml:space="preserve" name="ZipFilter">
+    <value>Archive ZIP (*.zip)</value>
+  </data>
+  <data xml:space="preserve" name="ExportTitle">
+    <value>Exporter le diagnostic</value>
+  </data>
+  <data xml:space="preserve" name="ExportFailed">
+    <value>Impossible d’exporter le diagnostic.
+{0}</value>
+  </data>
+  <data xml:space="preserve" name="OpenLogsFailed">
+    <value>Impossible d’ouvrir le dossier des journaux.
+{0}</value>
+  </data>
+  <data xml:space="preserve" name="StartupFailed">
+    <value>CodexPetHub n’a pas pu démarrer.
+{0}</value>
+  </data>
+  <data xml:space="preserve" name="TechnicalDetails">
+    <value>Détails techniques : {0}</value>
+  </data>
+  <data xml:space="preserve" name="ProcessingLine">
+    <value>Traitement : {0} · IPC : {1} · en attente : {2}</value>
+  </data>
+  <data xml:space="preserve" name="LastProgressLine">
+    <value>Dernière progression : {0} (il y a {1:F1} s)</value>
+  </data>
+  <data xml:space="preserve" name="FaultLine">
+    <value>Défaillance : {0}</value>
+  </data>
+  <data xml:space="preserve" name="DiagnosticsErrorLine">
+    <value>Erreur d’écriture du diagnostic : {0}</value>
+  </data>
+  <data xml:space="preserve" name="HubLine">
+    <value>Hub : {0}</value>
+  </data>
+  <data xml:space="preserve" name="ProtocolsLine">
+    <value>Protocoles : IPC v{0} · Série v{1}</value>
+  </data>
+  <data xml:space="preserve" name="PluginLine">
+    <value>Plugin : {0}</value>
+  </data>
+  <data xml:space="preserve" name="CodexStateLine">
+    <value>Dernier état Codex : {0}</value>
+  </data>
+  <data xml:space="preserve" name="LastEventLine">
+    <value>Dernier événement : {0}</value>
+  </data>
+  <data xml:space="preserve" name="PortLine">
+    <value>Port actuel : {0} · réglage : {1}</value>
+  </data>
+  <data xml:space="preserve" name="FirmwareLine">
+    <value>Firmware : {0}</value>
+  </data>
+  <data xml:space="preserve" name="DeviceIdLine">
+    <value>Identifiant du Pet : {0}</value>
+  </data>
+  <data xml:space="preserve" name="RequestedStateLine">
+    <value>État demandé : {0} / {1}</value>
+  </data>
+  <data xml:space="preserve" name="RequestedReactionLine">
+    <value>Réaction demandée : {0}</value>
+  </data>
+  <data xml:space="preserve" name="ReportedStateLine">
+    <value>État rapporté par le firmware : {0}</value>
+  </data>
+  <data xml:space="preserve" name="FirmwareDiagnosticLine">
+    <value>Mode diagnostic du firmware : {0}</value>
+  </data>
+  <data xml:space="preserve" name="BrightnessLine">
+    <value>Luminosité : {0} %</value>
+  </data>
+  <data xml:space="preserve" name="SoundLine">
+    <value>Son de fin de réponse : {0} · firmware : {1}</value>
+  </data>
+  <data xml:space="preserve" name="AudioReadyLine">
+    <value>Audio prêt : {0} · en lecture : {1}</value>
+  </data>
+  <data xml:space="preserve" name="AudioCountsLine">
+    <value>Lectures audio : {0} · erreurs : {1}</value>
+  </data>
+  <data xml:space="preserve" name="LastSerialLine">
+    <value>Dernière réponse série : {0}</value>
+  </data>
+  <data xml:space="preserve" name="LastStatusLine">
+    <value>Dernier STATUS : {0}</value>
+  </data>
+  <data xml:space="preserve" name="BootLine">
+    <value>Démarrage du Pet : {0} · cause du redémarrage (code) : {1}</value>
+  </data>
+  <data xml:space="preserve" name="UptimeLine">
+    <value>Durée depuis le démarrage : {0}</value>
+  </data>
+  <data xml:space="preserve" name="PanelLine">
+    <value>Panneau endormi : {0} · commande : {1}</value>
+  </data>
+  <data xml:space="preserve" name="VoltageLine">
+    <value>Batterie : {0} · USB : {1}</value>
+  </data>
+  <data xml:space="preserve" name="UsbLine">
+    <value>Alimentation USB présente : {0} · charge : {1}</value>
+  </data>
+  <data xml:space="preserve" name="WindowsLine">
+    <value>Windows : verrouillé={0} · affichage éteint={1} · suspendu={2}</value>
+  </data>
+  <data xml:space="preserve" name="LastErrorLine">
+    <value>Dernière erreur : {0}</value>
+  </data>
+  <data xml:space="preserve" name="PipeLine">
+    <value>Canal local : {0}</value>
+  </data>
+  <data xml:space="preserve" name="DataLine">
+    <value>Dossier des données : {0}</value>
+  </data>
+  <data xml:space="preserve" name="PhysicalScreenHint">
+    <value>L’état rapporté ne remplace pas une observation de l’écran physique.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorBrightness">
+    <value>La luminosité doit être comprise entre 0 et 100.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorSound">
+    <value>Son de fin de réponse inconnu.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorReconnect">
+    <value>Le délai de reconnexion doit être compris entre 1 et 60 secondes.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorPort">
+    <value>Choisis Automatique ou COM suivi d’un nombre positif.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorIdentity">
+    <value>Identifiant du Pet ou nom invalide (1 à 64 caractères).</value>
+  </data>
+  <data xml:space="preserve" name="ErrorLanguage">
+    <value>Choisis l’anglais ou le français.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorEmptyConfig">
+    <value>Configuration vide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorEnvelope">
+    <value>Enveloppe série invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorMalformedReply">
+    <value>Réponse du firmware mal formée.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorMissingReplyType">
+    <value>Type de réponse du firmware manquant.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorFirmware">
+    <value>Erreur du firmware : {0}.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorReplyShape">
+    <value>Structure de réponse invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorAwaiting">
+    <value>En attente de {0} {1} : {2}</value>
+  </data>
+  <data xml:space="preserve" name="ErrorInfoRequired">
+    <value>Réponse INFO requise.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorNotPet">
+    <value>L’appareil n’est pas un CodexPet.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorProtocol">
+    <value>Protocole du firmware incompatible : {0}, version attendue : {1}.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorFirmwareIdentity">
+    <value>Identité du firmware invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorFirmwareVersion">
+    <value>Le firmware 1.1.0 ou ultérieur est requis pour les expressions et réactions.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorIncompleteIdentity">
+    <value>Identité du firmware incomplète.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorStatus">
+    <value>État du firmware invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorIncompleteStatus">
+    <value>État du firmware incomplet.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorNumericDiagnostic">
+    <value>Valeur numérique du diagnostic du Pet invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorDiagnosticLabel">
+    <value>Libellé du diagnostic du Pet invalide.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorDifferentPet">
+    <value>Ce Pet est différent ; coche Oublier l’appareil dans les paramètres pour l’associer.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorNoCandidate">
+    <value>Aucun appareil ESP32-S3 trouvé. Branche un Pet ou sélectionne son port.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorSeveralPets">
+    <value>Plusieurs Pets compatibles trouvés. Sélectionne un port dans les paramètres.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorPortFailure">
+    <value>{0} : {1}</value>
+  </data>
+  <data xml:space="preserve" name="ErrorPetDisconnected">
+    <value>Pet déconnecté.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorSerialClosed">
+    <value>Connexion série fermée.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorTimeout">
+    <value>Aucune réponse {0} à {1} après 1,8 s. {2}</value>
+  </data>
+  <data xml:space="preserve" name="ErrorTimeoutInfo">
+    <value>Le firmware doit prendre en charge le protocole série CodexPet v1.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorTimeoutRetry">
+    <value>Une nouvelle connexion sera tentée.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorSerialDisabled">
+    <value>Liaison série désactivée pour ce diagnostic.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorNoDevice">
+    <value>Aucun appareil.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorProcessingStopped">
+    <value>Le traitement s’est arrêté de façon inattendue.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorIpcStopped">
+    <value>Le serveur IPC s’est arrêté de façon inattendue.</value>
+  </data>
+  <data xml:space="preserve" name="ErrorMultiplePorts">
+    <value>{0} | {1}</value>
+  </data>
+  <data xml:space="preserve" name="LicenseMenu">
+    <value>Licence et crédits…</value>
+  </data>
+  <data xml:space="preserve" name="LicenseTitle">
+    <value>CodexPetHub · Licence et crédits</value>
+  </data>
+  <data xml:space="preserve" name="LicenseSummary">
+    <value>© 2026 RunDeleteParadox et contributeurs
+Logiciel libre sous GNU AGPL version 3 ou ultérieure.
+Redistribution autorisée selon ses conditions. Aucune garantie.</value>
+  </data>
+  <data xml:space="preserve" name="LicenseTab">
+    <value>Licence</value>
+  </data>
+  <data xml:space="preserve" name="CreditsTab">
+    <value>Crédits et sources</value>
+  </data>
+  <data xml:space="preserve" name="Close">
+    <value>Fermer</value>
+  </data>
+  <data xml:space="preserve" name="LegalMissing">
+    <value>Impossible de lire {0}. Restaure ce fichier depuis la distribution complète.</value>
+  </data>
+  <data xml:space="preserve" name="FirmwareCredit">
+    <value>Firmware : KK / M5Stack StopWatch Avatar
+Projet d’origine créé par trentct et ses contributeurs.
+https://github.com/Trentct/m5stack-stopwatch-avatar
+Licence : AGPL-3.0-or-later
+
+Adaptations CodexPet du firmware, Hub et plugin :
+RunDeleteParadox et contributeurs.</value>
+  </data>
+  <data name="SettingsPage" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="DiagnosticsPage" xml:space="preserve"><value>Diagnostic</value></data>
+  <data name="LicensePage" xml:space="preserve"><value>Licence et crédits</value></data>
+  <data name="SelectedPage" xml:space="preserve"><value>Page sélectionnée</value></data>
+  <data name="HubSubtitle" xml:space="preserve"><value>Ton compagnon de bureau</value></data>
+</root>

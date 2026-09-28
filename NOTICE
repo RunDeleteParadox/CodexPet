@@ -1,0 +1,23 @@
+CodexPet
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+CodexPet additions and modifications, Windows Hub and Codex plugin:
+Copyright (C) 2026 RunDeleteParadox and contributors.
+
+The firmware is derived from KK / M5Stack StopWatch Avatar by trentct and
+contributors: https://github.com/Trentct/m5stack-stopwatch-avatar
+Upstream baseline: 204963257cb4dc2f3d7501eff900897bac55ef82.
+The original upstream license, notices and history are preserved.
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+See LICENSE, CREDITS.md and each component's NOTICE and THIRD_PARTY_NOTICES.md.
+Third-party components retain their own copyrights and licenses.

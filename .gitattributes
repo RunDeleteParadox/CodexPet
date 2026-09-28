@@ -1,0 +1,16 @@
+* text=auto
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.cs text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.resx text eol=lf
+*.wav binary
+*.png binary
+
+# Preserve vendor notices verbatim, including their original whitespace.
+**/LICENSES/* -whitespace

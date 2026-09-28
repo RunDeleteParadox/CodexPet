@@ -1,43 +1,21 @@
 # Contributing
 
-Thanks for helping improve KK and M5Stack StopWatch Avatar.
+Describe the behavior you want to change and identify the affected component.
+Keep changes small enough to review and test. The component guides contain
+setup and validation details:
 
-## Before opening a change
+- [Hub](CodexPetHub/CONTRIBUTING.md)
+- [Plugin](CodexPetPlugin/CONTRIBUTING.md)
+- [Firmware](CodexPetFirmware/CONTRIBUTING.md)
 
-1. Describe the user-visible behavior you want to change.
-2. Keep rendering and hardware input changes small enough to test independently.
-3. Run the firmware build:
+Run `scripts/Test.ps1` on Windows for Hub/plugin work. Firmware work requires
+`pio run --project-dir CodexPetFirmware`; report physical-device observations
+separately from successful builds or protocol replies. Never commit local logs,
+device identifiers or credentials.
 
-```sh
-pio run
-```
+Maintain public user guides in English and French. Technical contributor guides may be English. Preserve upstream documentation and keep private working notes in ignored `.local/notes`.
+Update both Hub resource catalogs when changing user-facing text.
 
-4. If the change affects display, touch, IMU, buttons or vibration, upload it to a physical StopWatch and report what was actually observed.
-
-## Pull request checklist
-
-- [ ] `pio run` succeeds.
-- [ ] No `.pio` directory, firmware binary, serial-device identifier or credential is committed.
-- [ ] New expressions preserve the default pure-black monochrome visual boundary.
-- [ ] Interaction changes document thresholds and expected recovery behavior.
-- [ ] Hardware claims distinguish compilation from physical-device verification.
-- [ ] Public behavior or setup changes update the README or relevant docs.
-
-## Bug reports
-
-Please include:
-
-- hardware model and firmware commit;
-- exact interaction sequence;
-- expected and actual behavior;
-- relevant serial output with device identifiers removed;
-- a short device video when the issue is visual or gesture-related.
-
-## Style
-
-- Follow the existing C++ formatting and naming.
-- Keep frame-loop work lightweight and avoid display readback on the animation path.
-- Prefer reusable expression/keyframe data over one-off drawing branches.
-- Add comments for coordinate transforms, thresholds and performance-sensitive code.
-
-By contributing, you agree that your contribution is licensed under AGPL-3.0-or-later.
+Contributions are accepted under AGPL-3.0-or-later. Contributors retain their
+copyright; no separate assignment or contributor agreement is required. Preserve
+the original trentct firmware notices and any third-party terms.

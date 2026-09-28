@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CodexPetHub.Core/CodexPetHub.Core.csproj" />
+    <Project Path="src/CodexPetHub.Windows/CodexPetHub.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CodexPetHub.UiTests/CodexPetHub.UiTests.csproj" />
+    <Project Path="tests/CodexPetHub.ReliabilityTests/CodexPetHub.ReliabilityTests.csproj" />
+    <Project Path="tests/CodexPetHub.LegacySmoke/CodexPetHub.LegacySmoke.csproj" />
+    <Project Path="tests/CodexPetHub.Tests/CodexPetHub.Tests.csproj" />
+  </Folder>
+</Solution>

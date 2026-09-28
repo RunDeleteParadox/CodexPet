@@ -1,0 +1,15 @@
+bin/
+obj/
+artifacts/
+.vs/
+*.user
+.env
+.env.*
+!.env.example
+.codex-pet-hub/
+.codex-pet-plugin/
+*.pfx
+*.p12
+*.key
+.DS_Store
+Thumbs.db
