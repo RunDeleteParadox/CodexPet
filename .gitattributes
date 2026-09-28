@@ -11,6 +11,7 @@
 *.resx text eol=lf
 *.wav binary
 *.png binary
+*.gif binary
 
 # Preserve vendor notices verbatim, including their original whitespace.
 **/LICENSES/* -whitespace

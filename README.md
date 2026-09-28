@@ -9,6 +9,35 @@ The firmware is based on **KK / M5Stack StopWatch Avatar by trentct and
 contributors**: [Trentct/m5stack-stopwatch-avatar](https://github.com/Trentct/m5stack-stopwatch-avatar).
 Its original AGPL license, credits and Git history are preserved.
 
+## Animations
+
+See Codex thinking, running tools or waiting for your input, and get a signal
+when a response finishes. The Pet also has sleep and wake transitions.
+
+![Nine CodexPet animations: Idle, Thinking, Working, Waiting for you, Response complete, Error, Stopped, Sleep and Wake](docs/assets/codexpet-animations-en.gif)
+
+Software preview rendered from the current firmware. Short reactions repeat
+for this gallery. [View the static preview](docs/assets/codexpet-animations-en.png).
+
+## Control your Pet with CodexPetHub
+
+The Hub lives in the Windows system tray. Double-click its icon to open one
+window for **Settings**, **Diagnostics**, and **License and credits**.
+
+| Feature | What you can do |
+| --- | --- |
+| **Brightness** | Adjust the display from 0 to 100% in Settings or use a preset from the tray menu. |
+| **English and French** | Change the interface language without restarting. Your choice is saved with the other preferences. |
+| **Sleep with Windows** | Let the Pet sleep when Windows locks or turns off the display. It returns to the current activity when the sleep conditions clear. |
+| **Your settings, remembered** | Name your Pet and save its brightness, sound, USB connection and power preferences across restarts. |
+| **Completion sounds** | Choose the TA-DA! voice, a two-note fanfare, or silence. Audio requires firmware 1.1.7 or later. |
+| **Tray controls** | Preview animations, put the Pet to sleep, wake it or reconnect, and optionally start the Hub at Windows sign-in. |
+| **Diagnostics** | Check the Pet and plugin connections, see the current activity and export a diagnostic report. |
+
+![CodexPetHub Settings in English, showing language, brightness, completion sound and Windows sleep options](docs/assets/hub-settings-en.png)
+
+Follow the [installation and user guide](docs/USER-GUIDE.md) to get started.
+
 ## Components
 
 | Directory | Purpose |

@@ -12,7 +12,8 @@ Developer references: [contributing](../CONTRIBUTING.md),
 [protocols](../CodexPetHub/docs/PROTOCOLS.md),
 [localization](../CodexPetHub/docs/LOCALIZATION.md),
 [licensing](../CodexPetHub/docs/LICENSING.md),
-[credits](../CREDITS.md).
+[credits](../CREDITS.md),
+[README media generation](assets/README.md).
 
 `docs` contains public documentation and is intentionally tracked by Git.
 Private working notes, local audits and delivery receipts belong in ignored
