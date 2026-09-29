@@ -51,6 +51,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File CodexPetHub/scripts/Buil
 .\CodexPetHub\artifacts\publish\CodexPetHub.exe
 ```
 
+Au quotidien, double-clique sur l'exécutable dans l'Explorateur Windows ou crée
+un raccourci vers celui-ci. Un Hub lancé depuis un terminal géré par Codex peut
+s'arrêter au redémarrage de Codex, car Windows peut regrouper les processus.
+
 L'icône peut se trouver dans les icônes masquées de Windows. Double-clique dessus
 pour ouvrir les **Paramètres**. Choisis anglais ou français puis enregistre.
 Pour un seul appareil, garde le port **Automatique** ; sélectionne un port COM
@@ -153,9 +157,10 @@ inclut des chemins locaux et des identifiants d'appareil : vérifie le ZIP avant
 ## 7. Mettre à jour ou désinstaller
 
 Quitte le Hub avant de remplacer tout son dossier de distribution. Les préférences
-restent dans ton profil. Si tu déplaces l'exécutable, enregistre le réglage de
-démarrage automatique depuis le nouvel emplacement. Mets le firmware à jour
-séparément, avec le Hub arrêté.
+restent dans ton profil. Si tu déplaces l'exécutable, lance-le depuis l'Explorateur,
+désactive le démarrage automatique et enregistre, puis réactive-le et enregistre.
+Cela met à jour le chemin enregistré. Mets le firmware à jour séparément, avec le
+Hub arrêté.
 
 Après une mise à jour des sources du plugin, réinstalle `codex-pet@codexpet` et
 ouvre une nouvelle conversation. Approuve les hooks modifiés si Codex le demande,

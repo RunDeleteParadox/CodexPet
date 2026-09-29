@@ -15,7 +15,7 @@ $hubData = Join-Path $root 'hub'
 if ($KeepArtifacts) { Write-Output ('Evidence: ' + $root) }
 $pipeName = 'CodexPetHub.Test.' + [guid]::NewGuid().ToString('N')
 Write-CodexPetJson (Join-Path $pluginData 'config.json') ([pscustomobject]@{enabled=$true;pipeName=$pipeName})
-$hub = $null; $script:passed = 0; $succeeded = $false
+$hub = $null; $process = $null; $script:passed = 0; $succeeded = $false
 function Read-Status([string]$Directory) {
     try { return Get-Content -LiteralPath (Join-Path $Directory 'status.json') -Raw | ConvertFrom-Json } catch { return $null }
 }
@@ -45,12 +45,20 @@ try {
     $info.Arguments = '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' + (Join-Path $scripts 'Invoke-CodexPetHook.ps1') + '" -DataDirectory "' + $pluginData + '"'
     $info.UseShellExecute = $false; $info.CreateNoWindow = $true
     $info.RedirectStandardInput = $true; $info.RedirectStandardOutput = $true
-    $process = [Diagnostics.Process]::Start($info)
+    # Windows PowerShell's default stdin writer follows the console encoding.
+    # A UTF-8 console (including GitHub Actions) can add a BOM that breaks JSON.
+    # .NET Framework lacks ProcessStartInfo.StandardInputEncoding and creates
+    # the writer (including its preamble) during Start, before the first write.
+    $inputEncoding = [Console]::InputEncoding
+    try {
+        [Console]::InputEncoding = New-Object Text.UTF8Encoding($false)
+        $process = [Diagnostics.Process]::Start($info)
+    } finally { [Console]::InputEncoding = $inputEncoding }
     $process.StandardInput.WriteLine('{"hook_event_name":"PreToolUse","session_id":"test-session","turn_id":"t1","tool_use_id":"A","tool_name":"safe_test","prompt":"PRIVATE_SENTINEL_DO_NOT_STORE","tool_input":{"secret":"PRIVATE_SENTINEL_DO_NOT_STORE"}}')
     $process.StandardInput.Close()
     if (-not $process.WaitForExit(3000) -or $process.ExitCode -ne 0) { throw 'Hook blocked or failed without Hub.' }
     if ($process.StandardOutput.ReadToEnd() -ne '') { throw 'Hook wrote conversation output.' }
-    $process.Dispose()
+    $process.Dispose(); $process = $null
     Await { $s=Read-Status $pluginData; $null -ne $s -and $s.running -and -not $s.connected -and $s.state -eq 'working' } 'Codex starts before Hub; hook succeeds without Hub'
     $hub = Start-TestHub
     Await { $s=Read-Status $hubData; $p=Read-Status $pluginData; $null -ne $s -and $s.pluginConnected -and $s.codexState -eq 2 -and $p.connected -and $p.deliveredStates -ge 1 } 'Hub appears; plugin reconnects and restores Working'
@@ -102,6 +110,7 @@ try {
 } finally {
     $resolved = [IO.Path]::GetFullPath($root)
     if (-not $resolved.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or (Split-Path $resolved -Leaf) -notlike 'CodexPetIntegration-*') { throw 'Unsafe cleanup target.' }
+    if ($null -ne $process) { if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force; $process.WaitForExit() }; $process.Dispose() }
     try { & (Join-Path $scripts 'CodexPet.ps1') -Action disable -DataDirectory $pluginData } catch { }
     # A failed test must not leave its worker alive, including across Windows app isolation.
     $workerScript = Join-Path $scripts 'Start-CodexPetWorker.ps1'

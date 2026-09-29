@@ -49,6 +49,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File CodexPetHub/scripts/Buil
 .\CodexPetHub\artifacts\publish\CodexPetHub.exe
 ```
 
+For everyday use, double-click the executable in File Explorer or create a
+shortcut to it. A Hub started from a Codex-managed terminal can stop when Codex
+restarts because Windows may group the processes together.
+
 The tray icon may be inside Windows' hidden-icons area. Double-click it to open
 **Settings**. Choose English or French and save. Leave the port on **Automatic**
 for one device; select a COM port if several candidates are present. The Hub
@@ -145,8 +149,9 @@ identifiers; review the ZIP before sharing it.
 ## 7. Update or remove
 
 Quit the Hub before replacing its entire published folder. Preferences remain
-under your profile. If you move the executable, save the launch-at-sign-in setting
-from the new location. Update firmware separately with the Hub stopped.
+under your profile. If you move the executable, launch it from File Explorer,
+turn off launch at sign-in and save, then turn it back on and save. This updates
+the registered path. Update firmware separately with the Hub stopped.
 
 After updating the plugin source, reinstall `codex-pet@codexpet` and use a new
 Codex chat. Review changed hooks when Codex asks, and recheck the completion path.
