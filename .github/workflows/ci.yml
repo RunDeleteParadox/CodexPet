@@ -26,6 +26,14 @@ jobs:
       - name: Test Hub and plugin without hardware
         shell: powershell
         run: .\scripts\Test.ps1
+      - name: Upload failed integration diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-integration-diagnostics
+          path: CodexPetPlugin/artifacts/CodexPetIntegration-*/
+          if-no-files-found: ignore
+          retention-days: 7
 
   firmware:
     runs-on: ubuntu-latest

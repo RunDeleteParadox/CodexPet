@@ -15,7 +15,7 @@ $hubData = Join-Path $root 'hub'
 if ($KeepArtifacts) { Write-Output ('Evidence: ' + $root) }
 $pipeName = 'CodexPetHub.Test.' + [guid]::NewGuid().ToString('N')
 Write-CodexPetJson (Join-Path $pluginData 'config.json') ([pscustomobject]@{enabled=$true;pipeName=$pipeName})
-$hub = $null; $script:passed = 0
+$hub = $null; $script:passed = 0; $succeeded = $false
 function Read-Status([string]$Directory) {
     try { return Get-Content -LiteralPath (Join-Path $Directory 'status.json') -Raw | ConvertFrom-Json } catch { return $null }
 }
@@ -25,6 +25,14 @@ function Await([scriptblock]$Condition, [string]$Name, [int]$Seconds = 12) {
         if (& $Condition) { $script:passed++; Write-Output "PASS $Name"; return }
         Start-Sleep -Milliseconds 100
     } while ([datetime]::UtcNow -lt $deadline)
+    foreach ($directory in @($pluginData, $hubData)) {
+        foreach ($diagnosticName in @('status.json', 'hook-error.json', 'startup-error.txt')) {
+            $path = Join-Path $directory $diagnosticName
+            if (Test-Path -LiteralPath $path) { Write-Output ("DIAGNOSTIC $path`: " + (Get-Content -LiteralPath $path -Raw)) }
+        }
+    }
+    Write-Output ('DIAGNOSTIC queued events: ' + @(Get-ChildItem -LiteralPath (Join-Path $pluginData 'events') -Filter '*.json' -ErrorAction SilentlyContinue).Count)
+    Write-Output ('DIAGNOSTIC worker running: ' + (Test-CodexPetWorkerRunning $pluginData))
     throw "FAIL $Name (timeout)"
 }
 function Start-TestHub {
@@ -90,6 +98,7 @@ try {
     Await { $s=Read-Status $hubData; $null -ne $s -and $s.pluginConnected -and $s.codexState -eq 1 } 'Hub starts before plugin'
     & (Join-Path $scripts 'CodexPet.ps1') -Action disable -DataDirectory $pluginData
     Write-Output "RESULT: $script:passed passed"
+    $succeeded = $true
 } finally {
     $resolved = [IO.Path]::GetFullPath($root)
     if (-not $resolved.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or (Split-Path $resolved -Leaf) -notlike 'CodexPetIntegration-*') { throw 'Unsafe cleanup target.' }
@@ -101,5 +110,6 @@ try {
         $_.CommandLine -and $_.CommandLine.Contains($workerScript) -and $_.CommandLine.Contains($dataArgument)
     } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
     if ($null -ne $hub) { if (-not $hub.HasExited) { Stop-Process -Id $hub.Id -Force; $hub.WaitForExit() }; $hub.Dispose() }
-    if (-not $KeepArtifacts -and -not (Test-CodexPetWorkerRunning $pluginData)) { Remove-Item -LiteralPath $resolved -Recurse -Force }
+    if ($succeeded -and -not $KeepArtifacts -and -not (Test-CodexPetWorkerRunning $pluginData)) { Remove-Item -LiteralPath $resolved -Recurse -Force }
+    else { Write-Output ('Evidence retained: ' + $resolved) }
 }
