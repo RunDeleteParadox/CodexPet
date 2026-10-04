@@ -130,8 +130,10 @@ The original prototype used direct serial, but that is a different installation.
   confirm the plugin is enabled and hooks trusted, then use a new Codex chat.
 - **No completion sound:** save a sound other than None, check firmware 1.1.7+
   and test Response complete. A missing completion signal also prevents celebration.
-- **No completion reaction after a Codex update:** check `completionCodexPath`
-  still names an existing native executable, then rerun the setup helper.
+- **No completion reaction after a Codex update:** the plugin recovers a missing
+  executable from the Codex process that emitted the completion hook. Check
+  `completionStatus` and `completionError` in plugin status; if recovery is
+  unavailable, rerun the setup helper with an existing native executable.
 - **Black screen:** the Pet may be sleeping. Use **Wake** before assuming a power fault.
 - **Processing fault or stalled loop:** export diagnostics, then quit and restart the Hub.
 

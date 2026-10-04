@@ -138,8 +138,10 @@ au Pet. L'ancien prototype utilisait le port série directement : c'est une autr
   son activation et la confiance des hooks, puis ouvre une nouvelle conversation.
 - **Pas de son :** enregistre un son autre qu'Aucun, vérifie le firmware 1.1.7+
   et teste Réponse terminée. Un signal de fin absent empêche aussi la célébration.
-- **Plus de célébration après une mise à jour Codex :** vérifie que `completionCodexPath`
-  désigne toujours un exécutable natif existant, puis relance le script de configuration.
+- **Plus de célébration après une mise à jour Codex :** le plugin retrouve un
+  exécutable disparu grâce au processus Codex qui a émis le hook de fin. Consulte
+  `completionStatus` et `completionError` dans le statut du plugin ; si la
+  récupération échoue, relance le script de configuration avec un exécutable natif existant.
 - **Écran noir :** le Pet peut être en veille. Choisis **Réveiller** avant de conclure à une panne.
 - **Traitement en erreur ou bloqué :** exporte le diagnostic, puis quitte et relance le Hub.
 

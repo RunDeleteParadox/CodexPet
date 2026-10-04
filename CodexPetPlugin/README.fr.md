@@ -40,6 +40,13 @@ charger les messages. Une célébration exige le même tour, `completed`, un
 réussi ou un tour interrompu ne suffisent jamais. Une activité nouvelle annule
 la vérification. Si l'API est indisponible, la célébration peut manquer.
 
+Si une mise à jour supprime l'exécutable configuré, le lecteur retrouve le
+`codex.exe` qui a émis le hook Stop, après vérification de son PID et de son heure
+de démarrage. Un chemin configuré encore existant garde la priorité. Cette
+récupération ne réécrit pas la configuration et ne cherche pas dans PATH ou les
+anciens dossiers d'installation. Le statut local expose `completionExecutable`
+et une cause `completionError` limitée aux erreurs connues, avec `completionStatus`.
+
 ## Données et commandes
 
 Les données sont dans `%USERPROFILE%\.codex-pet-plugin\v1.1`. Les identifiants

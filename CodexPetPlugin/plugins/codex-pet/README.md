@@ -37,7 +37,7 @@ The `send` example changes the Pet presentation if a Hub is connected. Use the H
 
 Runtime: `%USERPROFILE%\.codex-pet-plugin\v1.1`. `-DataDirectory` or `CODEX_PET_PLUGIN_DATA` isolates tests. State includes local session/turn/tool-call identifiers and normalized results; prompts, arguments, raw responses and transcripts are excluded. Tool identifiers stay local and are not sent to the Hub.
 
-Configure `completionCodexPath` with the repository's `Configure-CompletionApi.py` helper. Check that path after a Codex update. `completionStatus` explains availability; `last-completion.json` records only identifiers, time and source of a confirmed signal. The experimental API can become unavailable; no fallback infers success from time.
+Configure `completionCodexPath` with the repository's `Configure-CompletionApi.py` helper. If an update removes that executable, the reader recovers the path from the Stop hook's owning Codex process, verifying both its PID and start time. An existing configured executable retains priority; recovery does not rewrite settings or search other installations. `completionStatus`, `completionExecutable` and an allowlisted `completionError` explain availability. `last-completion.json` records only identifiers, time and source of a confirmed signal. The experimental API can become unavailable; no fallback infers success from time.
 
 Open a new Codex chat after reinstalling so its hooks use the installed version. Use the app's native hook trust flow when requested.
 

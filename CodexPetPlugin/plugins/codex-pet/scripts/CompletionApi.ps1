@@ -6,18 +6,39 @@
 if (-not ('CodexPetCompletionOutput' -as [type])) {
     Add-Type -Path (Join-Path $PSScriptRoot 'CompletionProcess.cs')
 }
+function Resolve-CodexPetCompletionExecutable {
+    param([string]$Executable, [int]$OwnerPid = 0, [string]$OwnerStartUtc = '')
+    # Preserve an explicit executable while it exists. Desktop updates can
+    # remove its versioned directory; recover only from this hook's owner.
+    if ($Executable -and [IO.File]::Exists($Executable)) { return $Executable }
+    $owner = $null
+    try {
+        if ($OwnerPid -gt 0 -and $OwnerStartUtc) {
+            $owner = Get-Process -Id $OwnerPid -ErrorAction Stop
+            if ($owner.ProcessName -ieq 'codex' -and
+                $owner.StartTime.ToUniversalTime().ToString('o') -ceq $OwnerStartUtc) {
+                $path = $owner.MainModule.FileName
+                if ([IO.Path]::GetFileName($path) -ieq 'codex.exe' -and [IO.File]::Exists($path)) { return $path }
+            }
+        }
+    } catch { }
+    finally { if ($null -ne $owner) { $owner.Dispose() } }
+    # No PATH or newest-directory guess, and no change to the saved override.
+    throw 'Completion executable unavailable.'
+}
+
 function Start-CodexPetCompletionReader {
-    param([string]$Executable, [string]$Session, [string]$Turn)
-    if (-not $Executable -or -not [IO.File]::Exists($Executable)) { throw 'Completion executable unavailable.' }
+    param([string]$Executable, [string]$Session, [string]$Turn, [int]$OwnerPid = 0, [string]$OwnerStartUtc = '')
+    $resolved = Resolve-CodexPetCompletionExecutable $Executable $OwnerPid $OwnerStartUtc
     $info = New-Object Diagnostics.ProcessStartInfo
-    $info.FileName = $Executable
+    $info.FileName = $resolved
     $info.Arguments = 'app-server --listen stdio:// -c features.hooks=false -c notify=[]'
     $info.UseShellExecute = $false; $info.CreateNoWindow = $true
     $info.RedirectStandardInput = $true; $info.RedirectStandardOutput = $true; $info.RedirectStandardError = $true
     $info.StandardOutputEncoding = New-Object Text.UTF8Encoding($false)
     $process = New-Object Diagnostics.Process
     $process.StartInfo = $info
-    $reader = @{ process=$process; output=(New-Object CodexPetCompletionOutput($process)); session=$Session; turn=$Turn;
+    $reader = @{ process=$process; output=(New-Object CodexPetCompletionOutput($process)); session=$Session; turn=$Turn; executable=$resolved;
         phase='starting'; id=1; next=[datetime]::UtcNow; deadline=[datetime]::UtcNow.AddSeconds(10) }
     return $reader
 }

@@ -17,6 +17,7 @@ $ownerPid = 0; $ownerStart = ''; $lastOwnerCheck = $started
 $lastError = $null; $pipeName = ''; $delivered = 0; $connections = 0
 $completionReader = $null; $completionTarget = $null; $completionStatus = 'inactive'
 $completionRetry = $started; $lastCompletion = $null
+$completionExecutable = $null; $completionError = $null
 function Send-Snapshot([string]$Reaction = '') {
     $message = [ordered]@{ version=2; producerId=$producer; sequence=$model.revision; baseState=$model.state; timestamp=$timestamp }
     if ($Reaction) { $message.reaction = $Reaction }
@@ -51,8 +52,9 @@ try {
                     $ownerPid = [int]$event.ownerPid; $ownerStart = [string]$event.ownerStartUtc
                     if ($event.hook -eq 'Stop') {
                         Stop-CodexPetCompletionReader $completionReader; $completionReader=$null
-                        $completionTarget=@{session=$event.session;turn=$event.turn}
+                        $completionTarget=@{session=$event.session;turn=$event.turn;ownerPid=$ownerPid;ownerStartUtc=$ownerStart}
                         $completionRetry=$now; $completionStatus='pending'
+                        $completionExecutable=$null; $completionError=$null
                     }
                     if ($null -ne $pipe) {
                         try { Send-Snapshot $model.reaction }
@@ -67,12 +69,13 @@ try {
             if ($model.selected -cne $completionTarget.session -or $session.turn -cne $completionTarget.turn -or
                 -not $session.stopped) {
                 Stop-CodexPetCompletionReader $completionReader; $completionReader=$null; $completionTarget=$null
-                $completionStatus='inactive'
+                $completionStatus='inactive'; $completionError=$null
             } elseif ($config.completionCodexPath) {
                 try {
                     if ($null -eq $completionReader -and $now -ge $completionRetry) {
-                        $completionReader=Start-CodexPetCompletionReader $config.completionCodexPath $completionTarget.session $completionTarget.turn
-                        $completionStatus='checking'
+                        $completionReader=Start-CodexPetCompletionReader $config.completionCodexPath $completionTarget.session $completionTarget.turn $completionTarget.ownerPid $completionTarget.ownerStartUtc
+                        $completionExecutable=$completionReader.executable
+                        $completionStatus='checking'; $completionError=$null
                     }
                     if ($null -ne $completionReader) {
                         $confirmed=Read-CodexPetCompletion $completionReader
@@ -94,8 +97,13 @@ try {
                 } catch {
                     Stop-CodexPetCompletionReader $completionReader; $completionReader=$null
                     $completionStatus='unavailable'; $completionRetry=$now.AddSeconds(5)
+                    $completionError=if ($_.Exception.Message -in @(
+                        'Completion executable unavailable.','Completion reader could not start.',
+                        'Completion reader start timed out.','Completion reader exited.',
+                        'Completion API unavailable.','Completion API timed out.'
+                    )) { $_.Exception.Message } else { 'Completion reader unavailable.' }
                 }
-            } else { $completionStatus='not-configured' }
+            } else { $completionStatus='not-configured'; $completionExecutable=$null; $completionError=$null }
         }
         if (($now - $lastOwnerCheck).TotalSeconds -ge 2 -and $ownerPid -gt 0) {
             $lastOwnerCheck = $now
@@ -123,6 +131,7 @@ try {
                 running=$true; workerPid=$PID; connected=($null -ne $pipe); state=$model.state;
                 deliveredStates=$delivered; connections=$connections; updated=$now.ToString('o'); error=$lastError
                 completionStatus=$completionStatus; lastCompletion=$lastCompletion
+                completionExecutable=$completionExecutable; completionError=$completionError
             })
             $nextStatus = $now.AddSeconds(1)
         }
@@ -135,7 +144,7 @@ finally {
     Stop-CodexPetCompletionReader $completionReader
     if ($null -ne $pipe) { $pipe.Dispose() }
     if ($owned) {
-        try { Write-CodexPetJson (Join-Path $root 'status.json') ([pscustomobject]@{ running=$false; workerPid=$PID; connected=$false; state=$model.state; deliveredStates=$delivered; connections=$connections; updated=[datetime]::UtcNow.ToString('o'); error=$lastError }) } catch { }
+        try { Write-CodexPetJson (Join-Path $root 'status.json') ([pscustomobject]@{ running=$false; workerPid=$PID; connected=$false; state=$model.state; deliveredStates=$delivered; connections=$connections; updated=[datetime]::UtcNow.ToString('o'); error=$lastError; completionStatus=$completionStatus; lastCompletion=$lastCompletion; completionExecutable=$completionExecutable; completionError=$completionError }) } catch { }
         $lease.ReleaseMutex()
     }
     $lease.Dispose()

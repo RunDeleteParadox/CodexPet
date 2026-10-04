@@ -47,6 +47,8 @@ After Stop, the worker requests `thread/turns/list` through the local Codex stdi
 
 New activity, Interrupt, a new turn or a session change cancels the check. The experimental API may change. Missing executable, incompatible responses, timeouts or missing completion timestamps cannot manufacture a celebration. A prolonged failure can make a celebration go missing.
 
+If a Codex update removes the configured executable, the reader uses the `codex.exe` process that emitted the Stop hook, after verifying its PID and start time. An existing configured executable keeps priority. Recovery does not rewrite the saved path or search PATH or old installation directories. Local status includes `completionExecutable` and an allowlisted `completionError` alongside `completionStatus`.
+
 `Configure-CompletionApi.py --codex <absolute-path-to-codex.exe>` previews the setup; add `--apply` to write it. It preserves other settings with backups and restores any previously saved native notifier. Python 3.11 or later is needed for setup helpers and Python tests, but not for normal plugin operation. Initialize the plugin runtime before using the helper.
 
 The old `Configure-CompletionNotify.py` relay remains for compatibility. Windows can reject very long JSON command-line arguments before that adapter starts. The completion reader avoids depending on that path.

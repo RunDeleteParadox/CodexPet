@@ -24,8 +24,12 @@ Les prompts, arguments et résultats bruts ne sont pas stockés ni envoyés au H
 Les identifiants de session, tour et outil restent dans ce dossier local.
 
 Configure `completionCodexPath` avec `Configure-CompletionApi.py`, fourni à la
-racine du composant CodexPetPlugin. L'API est expérimentale : vérifie le chemin
-de `codex.exe` après une mise à jour. `completionStatus` renseigne sa disponibilité.
+racine du composant CodexPetPlugin. Si une mise à jour supprime cet exécutable,
+le lecteur retrouve le processus Codex qui a émis Stop, après vérification de
+son PID et de son heure de démarrage. Un chemin existant garde la priorité ;
+la récupération ne réécrit pas les réglages et ne cherche pas d'autres
+installations. L'API reste expérimentale. `completionStatus`,
+`completionExecutable` et `completionError` renseignent sa disponibilité.
 
 Après réinstallation, approuve les hooks si Codex le demande et ouvre une nouvelle
 conversation. Le README du dépôt et son guide utilisateur expliquent l'installation

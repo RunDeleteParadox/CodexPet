@@ -34,7 +34,7 @@ class CompletionApiTests(unittest.TestCase):
         self.config = {'enabled':True, 'pipeName':'CodexPetHub.ApiTest.'+self.path.name,
                        'completionCodexPath':str(self.path/'CompletionApiStub.exe')}
         (self.data/'config.json').write_text(json.dumps(self.config))
-        self.sequence = 0; self.worker = None; self.hub = None; self.process_logs = []
+        self.sequence = 0; self.worker = None; self.hub = None; self.owner = None; self.owner_info = None; self.process_logs = []
         self.page(date=None)
     def tearDown(self):
         try:
@@ -45,17 +45,26 @@ class CompletionApiTests(unittest.TestCase):
                 self.assertEqual(self.worker.returncode, 0)
         finally:
             # Always reap our own processes, even if an assertion or shutdown fails.
-            for process in (self.worker, self.hub):
+            for process in (self.worker, self.hub, self.owner):
                 if process and process.poll() is None:
                     process.kill(); process.wait(timeout=5)
+            if self.owner and self.owner.stdin: self.owner.stdin.close()
             for log in self.process_logs: log.close()
             self.tmp.cleanup()
-    def spawn(self, name, args):
+    def spawn(self, name, args, stdin=None):
         # Real files keep Windows child-process diagnostics available without NUL handles.
         stdout = (self.path/(name+'.stdout.log')).open('w',encoding='utf-8')
         stderr = (self.path/(name+'.stderr.log')).open('w',encoding='utf-8')
         self.process_logs.extend([stdout,stderr])
-        return subprocess.Popen(args,stdout=stdout,stderr=stderr,creationflags=subprocess.CREATE_NO_WINDOW)
+        return subprocess.Popen(args,stdin=stdin,stdout=stdout,stderr=stderr,creationflags=subprocess.CREATE_NO_WINDOW)
+    def start_owner(self):
+        # A real codex.exe process identity, with the offline API stub behind it.
+        executable = self.path/'codex.exe'
+        shutil.copy2(self.path/'CompletionApiStub.exe',executable)
+        self.owner = self.spawn('owner',[str(executable)],stdin=subprocess.PIPE)
+        command = "$p=Get-Process -Id %d;[pscustomobject]@{pid=$p.Id;startUtc=$p.StartTime.ToUniversalTime().ToString('o')}|ConvertTo-Json -Compress" % self.owner.pid
+        self.owner_info = json.loads(subprocess.check_output(PS+['-Command',command],text=True))
+        return executable
     def atomic(self, path, obj):
         tmp = path.with_suffix('.tmp'); tmp.write_text(json.dumps(obj), encoding='utf-8'); tmp.replace(path)
     def page(self, status='completed', date=1790535038, turn='t1'):
@@ -66,7 +75,8 @@ class CompletionApiTests(unittest.TestCase):
         self.atomic(queue/('%04d.json'%self.sequence), {
             'schema':2,'id':str(self.sequence),'timestamp':'2026-09-27T20:00:00.0000000Z',
             'hook':hook,'session':'s1','turn':turn,'tool':tool,'toolName':'Bash','source':'','outcome':'',
-            'ownerPid':0,'ownerStartUtc':''})
+            'ownerPid':self.owner_info['pid'] if self.owner_info else 0,
+            'ownerStartUtc':self.owner_info['startUtc'] if self.owner_info else ''})
     def start(self):
         self.event('UserPromptSubmit'); self.event('Stop')
         self.worker = self.spawn('worker',PS+['-File',str(SCRIPTS/'Start-CodexPetWorker.ps1'),'-DataDirectory',str(self.data),'-MaxSeconds','25'])
@@ -81,6 +91,9 @@ class CompletionApiTests(unittest.TestCase):
         diagnostic = {path.name:path.read_text(errors='replace')[-2000:] for path in self.path.glob('*.log')}
         self.fail('Condition not reached; model='+str(self.model())+'; process logs='+str(diagnostic))
     def queried(self):return (self.path/'requests.txt').exists()
+    def status(self):
+        try:return json.loads((self.data/'status.json').read_text())
+        except (OSError,json.JSONDecodeError):return {}
     def test_stop_waits_for_explicit_completion_and_never_reads_messages(self):
         self.start(); self.wait(self.queried)
         self.assertEqual(self.model()['reaction'],'stop')
@@ -114,6 +127,43 @@ class CompletionApiTests(unittest.TestCase):
         self.start(); self.wait(lambda:self.model().get('state')=='idle'); time.sleep(1)
         self.assertFalse((self.data/'last-completion.json').exists())
         self.assertEqual(self.model()['reaction'],'stop')
+        self.wait(lambda:self.status().get('completionStatus')=='unavailable')
+        self.assertEqual(self.status()['completionError'],'Completion executable unavailable.')
+    def test_missing_executable_recovers_from_verified_hook_owner(self):
+        executable=self.start_owner()
+        self.config['completionCodexPath']=str(self.path/'removed-version/codex.exe')
+        self.atomic(self.data/'config.json',self.config)
+        self.page();self.start()
+        self.wait(lambda:self.status().get('completionStatus')=='confirmed')
+        self.assertTrue((self.data/'last-completion.json').is_file())
+        self.assertEqual(self.status()['completionExecutable'],str(executable))
+        self.assertIsNone(self.status()['completionError'])
+        self.assertEqual(json.loads((self.data/'config.json').read_text()),self.config)
+    def test_existing_override_takes_priority_over_hook_owner(self):
+        self.start_owner();self.page();self.start()
+        self.wait(lambda:self.status().get('completionStatus')=='confirmed')
+        self.assertEqual(self.status()['completionExecutable'],self.config['completionCodexPath'])
+    def test_owner_pid_with_wrong_start_time_cannot_resolve_missing_executable(self):
+        self.start_owner()
+        self.owner_info['startUtc']='2000-01-01T00:00:00.0000000Z'
+        self.config['completionCodexPath']=str(self.path/'removed-version/codex.exe')
+        self.atomic(self.data/'config.json',self.config)
+        self.page();self.start()
+        self.wait(lambda:self.status().get('completionStatus')=='unavailable')
+        self.assertEqual(self.status()['completionError'],'Completion executable unavailable.')
+        self.assertFalse((self.data/'last-completion.json').exists())
+        self.assertFalse(self.queried())
+    def test_non_codex_owner_cannot_resolve_missing_executable(self):
+        self.owner=self.spawn('owner',PS+['-Command','Start-Sleep -Seconds 30'])
+        command = "$p=Get-Process -Id %d;[pscustomobject]@{pid=$p.Id;startUtc=$p.StartTime.ToUniversalTime().ToString('o')}|ConvertTo-Json -Compress" % self.owner.pid
+        self.owner_info=json.loads(subprocess.check_output(PS+['-Command',command],text=True))
+        self.config['completionCodexPath']=str(self.path/'removed-version/codex.exe')
+        self.atomic(self.data/'config.json',self.config)
+        self.page();self.start()
+        self.wait(lambda:self.status().get('completionStatus')=='unavailable')
+        self.assertEqual(self.status()['completionError'],'Completion executable unavailable.')
+        self.assertFalse((self.data/'last-completion.json').exists())
+        self.assertFalse(self.queried())
     def test_completion_flows_through_real_pipe_to_hub_and_keeps_success_protected(self):
         hub_exe=ROOT.parent/'CodexPetHub/src/CodexPetHub.Windows/bin/Release/net10.0-windows/CodexPetHub.exe'
         self.assertTrue(hub_exe.is_file(),'Build CodexPetHub.Windows in Release before running integration tests')

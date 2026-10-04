@@ -20,6 +20,8 @@ Success celebrates an explicitly completed response, never correctness or comple
 
 Successful tool results never celebrate. Boolean `isError: true` or `is_error: true` still means an operation error, never a terminal turn failure. Stop means Idle plus a neutral Stop reaction while actual completion is checked. Compact preserves active calls. Question tools indicate attention only; async attention clears at tool return. The completion reader starts no thread or model turn, never resumes a thread, loads no message items, reads no transcript itself, and opens no listening network port.
 
+If an update removes the configured completion executable, the reader recovers only from the Stop hook's owning `codex.exe`, verifying its PID and start time. An existing override keeps priority. Recovery does not rewrite configuration or search PATH or old installation directories. Inspect `completionExecutable` and the allowlisted `completionError` alongside `completionStatus`; no recovery changes the strict completion criteria.
+
 Never persist prompts, tool arguments/results or transcripts. Only allowlisted event names, ids, normalized outcome, source and parent-process liveness are stored. IPC carries a base, optional reaction and transport identity/sequence, with no raw hook payload.
 
 Installing a changed plugin may require the user's `/hooks` review. Never bypass trust checks or edit trust hashes. Open a new Codex task after reinstall. Do not replace an installation during a read-only diagnosis. For aesthetic checks use the Hub systray recipe mode; successful ACKs do not validate the appearance on the real screen.
