@@ -7,7 +7,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -19,7 +19,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -31,7 +31,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -43,7 +43,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -55,7 +55,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -67,7 +67,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -79,7 +79,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -91,7 +91,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -103,7 +103,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]
@@ -115,7 +115,7 @@
           {
             "type": "command",
             "commandWindows": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& (Join-Path ([Environment]::GetEnvironmentVariable('PLUGIN_ROOT')) 'scripts/Invoke-CodexPetHook.ps1')\"",
-            "timeout": 3,
+            "timeout": 10,
             "command": "true"
           }
         ]

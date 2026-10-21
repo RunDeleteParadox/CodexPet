@@ -56,7 +56,9 @@ try {
     } finally { [Console]::InputEncoding = $inputEncoding }
     $process.StandardInput.WriteLine('{"hook_event_name":"PreToolUse","session_id":"test-session","turn_id":"t1","tool_use_id":"A","tool_name":"safe_test","prompt":"PRIVATE_SENTINEL_DO_NOT_STORE","tool_input":{"secret":"PRIVATE_SENTINEL_DO_NOT_STORE"}}')
     $process.StandardInput.Close()
-    if (-not $process.WaitForExit(3000) -or $process.ExitCode -ne 0) { throw 'Hook blocked or failed without Hub.' }
+    $hookConfig = Get-Content -LiteralPath (Join-Path $scripts '..\hooks\hooks.json') -Raw | ConvertFrom-Json
+    $hookTimeoutMs = 1000 * [int]$hookConfig.hooks.PreToolUse[0].hooks[0].timeout
+    if (-not $process.WaitForExit($hookTimeoutMs) -or $process.ExitCode -ne 0) { throw 'Hook blocked or failed without Hub.' }
     if ($process.StandardOutput.ReadToEnd() -ne '') { throw 'Hook wrote conversation output.' }
     $process.Dispose(); $process = $null
     Await { $s=Read-Status $pluginData; $null -ne $s -and $s.running -and -not $s.connected -and $s.state -eq 'working' } 'Codex starts before Hub; hook succeeds without Hub'
