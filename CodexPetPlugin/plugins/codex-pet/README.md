@@ -4,7 +4,7 @@
 
 This Windows PowerShell 5.1 plugin publishes Codex lifecycle states to CodexPetHub. It tracks the selected session, current turn and parallel tool calls without knowing the device port, animations, brightness or power state.
 
-Each hook has a 10-second execution budget to allow for PowerShell startup and Codex process discovery. This is a maximum duration, not a delay added to every event.
+Activity hooks have a 10-second execution budget to allow for PowerShell startup and Codex process discovery. This is a maximum duration, not a delay added to every event. `SessionEnd` and `Interrupt` use Codex's maximum of 3 seconds.
 
 ## States
 

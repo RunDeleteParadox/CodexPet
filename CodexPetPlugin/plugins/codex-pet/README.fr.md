@@ -6,8 +6,9 @@ Ce plugin Windows PowerShell 5.1 envoie les états Codex à **CodexPetHub** par 
 Named Pipe local. Il n'utilise aucun port COM et n'envoie aucune commande
 directement au firmware.
 
-Chaque hook dispose de 10 secondes au maximum pour démarrer PowerShell et
-identifier le processus Codex. Ce délai n'ajoute pas une attente fixe à chaque événement.
+Les hooks d'activité disposent de 10 secondes au maximum pour démarrer PowerShell
+et identifier le processus Codex. Ce délai n'ajoute pas une attente fixe à chaque
+événement. `SessionEnd` et `Interrupt` utilisent le maximum de 3 secondes imposé par Codex.
 
 États : repos, réflexion, travail, attente. Réactions : fin de réponse, erreur,
 arrêt. Après Stop, la fin d'un tour doit être confirmée explicitement par le
