@@ -86,19 +86,30 @@ internal sealed class SerialPetTransport(Action<string>? log = null, Action<Exce
         }
     }
 
-    public JsonElement Send(string command, string responseType)
+    public JsonElement Send(string command, string responseType) => SendWithRetry(command, responseType, Exchange, log);
+
+    internal static JsonElement SendWithRetry(string command, string responseType,
+        Func<string, string, JsonElement?> exchange, Action<string>? log = null)
     {
-        try { return Exchange(command, responseType); }
-        catch (TimeoutException) when (command == "STATUS")
+        var reply = exchange(command, responseType);
+        if (reply != null) return reply.Value;
+        var verb = command.Split(' ')[0];
+        if (verb is "INFO" or "STATUS" or "STATE" or "BRIGHTNESS" or "SOUND")
         {
-            // A read-only query can be retried without replaying a visual transition.
-            // Real USB runs showed occasional isolated missing STATUS replies.
-            log?.Invoke("STATUS reply timed out; retrying once before reconnect.");
-            return Exchange(command, responseType);
+            log?.Invoke($"{verb} reply timed out; retrying once before reconnect.");
+            reply = exchange(command, responseType);
+            if (reply != null)
+            {
+                // ACKs identify only the verb. Drain any second reply through the
+                // PONG before allowing the next command to reuse the same verb.
+                if (exchange("PING", "pong") == null) throw ReplyTimeout("PING", "pong");
+                return reply.Value;
+            }
         }
+        throw ReplyTimeout(verb, responseType);
     }
 
-    private JsonElement Exchange(string command, string responseType)
+    private JsonElement? Exchange(string command, string responseType)
     {
         if (port == null || !port.IsOpen) throw UiMessage.Io("ErrorPetDisconnected");
         port.WriteLine(command);
@@ -127,9 +138,14 @@ internal sealed class SerialPetTransport(Action<string>? log = null, Action<Exce
             LastReplyAt = DateTimeOffset.UtcNow;
             return response.Value;
         }
-        var timeout = new UiMessage("ErrorTimeout", responseType.ToUpperInvariant(), command.Split(' ')[0],
-            new UiMessage(command == "INFO" ? "ErrorTimeoutInfo" : "ErrorTimeoutRetry"));
-        throw timeout.Attach(new TimeoutException(timeout.Render(new("en"))));
+        return null;
+    }
+
+    private static TimeoutException ReplyTimeout(string verb, string responseType)
+    {
+        var timeout = new UiMessage("ErrorTimeout", responseType.ToUpperInvariant(), verb,
+            new UiMessage(verb == "INFO" ? "ErrorTimeoutInfo" : "ErrorTimeoutRetry"));
+        return timeout.Attach(new TimeoutException(timeout.Render(new("en"))));
     }
 
     public void Disconnect()
@@ -142,6 +158,11 @@ internal sealed class SerialPetTransport(Action<string>? log = null, Action<Exce
     }
     private void Release(SerialPort detached)
     {
+        // Dispose flushes the driver's output before closing. Abandon pending
+        // writes on this connection so a stalled device need not drain them.
+        try { if (detached.IsOpen) detached.DiscardOutBuffer(); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+        { cleanupError?.Invoke(ex); }
         try { detached.Dispose(); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
         { cleanupError?.Invoke(ex); }

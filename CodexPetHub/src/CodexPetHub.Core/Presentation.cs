@@ -40,13 +40,17 @@ public sealed class PresentationState
     {
         if (message.State is not { } value) return;
         PluginConnected = true;
-        if (producer == message.ProducerId && message.Sequence <= sequence) return;
+        var sameProducer = producer == message.ProducerId;
+        if (sameProducer && message.Sequence <= sequence) return;
+        var sameBase = Codex == value;
         producer = message.ProducerId; sequence = message.Sequence;
         Codex = value; LastEventAt = message.Timestamp;
         if (ManualRecipe) return; // Still track live Codex while the user judges a scene.
         // Success is a complete performance. Keep tracking the latest base,
         // but neither restart the animation nor enqueue incoming reactions.
         if (Reaction == ReactionKind.Success && now < reactionUntil) return;
+        // Tool activity can advance the sequence without changing the presentation.
+        if (sameProducer && sameBase && testExpression == null && Reaction == null && message.Reaction == null) return;
         testExpression = null; Reaction = null; revision++;
         successBase = null;
         if (message.Reaction is { } reaction) StartReaction(reaction, now);

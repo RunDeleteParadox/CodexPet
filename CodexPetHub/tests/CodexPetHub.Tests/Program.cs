@@ -168,13 +168,43 @@ Test("pending Success survives coalesced resident updates", () => {
     Check(s.Resolve(config, now).Reaction == "success" && s.Codex == BaseState.Working);
     Check(s.Resolve(config, now.AddSeconds(5)).Expression == "working");
 });
+Test("fresh same-base activity advances metadata without sending serial commands", () => {
+    var s = new PresentationState();
+    using var fake = new FakeTransport(); using var c = new PetConnection(fake); c.Connect(config);
+    s.Receive(Event(BaseState.Working), now);
+    c.Synchronize(s.Resolve(config, now));
+    fake.Commands.Clear();
+
+    var later = now.AddSeconds(1);
+    s.Receive(Event(BaseState.Working, 3) with { Timestamp = later }, later);
+    s.Receive(Event(BaseState.Thinking, 2), later);
+    Check(s.PluginConnected && s.Codex == BaseState.Working && s.LastEventAt == later);
+    Check(!c.Synchronize(s.Resolve(config, later)) && fake.Commands.Count == 0);
+
+    s.Receive(Event(BaseState.Working) with { ProducerId = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", Timestamp = later }, later);
+    Check(c.Synchronize(s.Resolve(config, later)));
+    Check(fake.Commands.SequenceEqual(["STATE working", "STATUS"]));
+});
 Test("same-base activity preempts reaction, duplicate does not restart it", () => {
     var s = new PresentationState(); var e = Event(BaseState.Working, reaction: ReactionKind.Success);
+    using var fake = new FakeTransport(); using var c = new PetConnection(fake); c.Connect(config);
     s.Receive(e, now); s.Receive(e, now.AddSeconds(1));
     Check(s.Resolve(config, now.AddSeconds(5)).Reaction == null);
     s.Receive(Event(BaseState.Working, 2, ReactionKind.Error), now.AddSeconds(6));
+    c.Synchronize(s.Resolve(config, now.AddSeconds(6)));
+    fake.Commands.Clear();
     s.Receive(Event(BaseState.Working, 3), now.AddSeconds(6)); Check(s.Reaction == null);
+    c.Synchronize(s.Resolve(config, now.AddSeconds(6)));
+    Check(fake.Commands.SequenceEqual(["STATE working", "STATUS"]));
     s.Receive(e, now.AddSeconds(7)); Check(s.Reaction == null);
+});
+Test("same-base activity still clears a temporary test", () => {
+    var s = new PresentationState();
+    s.Receive(Event(BaseState.Working), now);
+    s.Test("thinking", now);
+    Check(s.Resolve(config, now).Expression == "thinking");
+    s.Receive(Event(BaseState.Working, 2), now);
+    Check(s.Resolve(config, now).Expression == "working");
 });
 Test("sleep masks reactions; Wake restores latest waiting base", () => {
     var s = new PresentationState { Locked = true };

@@ -25,7 +25,7 @@ Success keeps its five-second presentation while later base states are remembere
 
 Firmware 1.1.0 or later. 115200 baud, 8N1, no hardware handshake, DTR/RTS disabled. ASCII with LF; CRLF accepted. Commands are limited to 63 characters; overlong lines are rejected in full. Replies start with `CP ` followed by JSON.
 
-The Hub waits for each reply before sending another command, with a 1.8-second timeout. Only a timed-out STATUS query is retried once. A reaction is not retried as a read operation.
+The Hub allows 1.8 seconds for a reply. If `INFO`, `STATUS`, `STATE`, `BRIGHTNESS` or `SOUND` receives no reply, the Hub retries the command once. After a successful retry it waits for a `PING` reply to clear any duplicate reply before proceeding. Each `REACT` command gets a single attempt.
 
 | Command | Effect |
 | --- | --- |

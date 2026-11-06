@@ -38,6 +38,40 @@ async Task Test(string name, Func<Task> test)
     catch (Exception ex) { failed++; Console.WriteLine("FAIL " + name + ": " + ex); }
 }
 
+await Test("a missed state ACK retries once and drains late ACKs before another command", () =>
+{
+    var exchanges = new List<(string Command, string Response)>();
+    var ack = JsonSerializer.SerializeToElement(new { type = "ok", command = "STATE" });
+    var pong = JsonSerializer.SerializeToElement(new { type = "pong" });
+    var reply = SerialPetTransport.SendWithRetry("STATE working", "ok", (command, response) =>
+    {
+        exchanges.Add((command, response));
+        return exchanges.Count == 1 ? null : command == "PING" ? pong : ack;
+    });
+    Check(reply.GetProperty("command").GetString() == "STATE", "state retry did not return ACK");
+    Check(exchanges.SequenceEqual(new[] { ("STATE working", "ok"), ("STATE working", "ok"), ("PING", "pong") }),
+        "retry did not wait for the ordering barrier");
+    return Task.CompletedTask;
+});
+
+await Test("serial retries are bounded and a missing reaction ACK never replays it", () =>
+{
+    foreach (var (command, expectedAttempts) in new[] { ("STATE working", 2), ("REACT success", 1) })
+    {
+        var attempts = 0;
+        try
+        {
+            SerialPetTransport.SendWithRetry(command, "ok", (_, _) => { attempts++; return null; });
+            throw new Exception("Missing reply was treated as success");
+        }
+        catch (TimeoutException)
+        {
+            Check(attempts == expectedAttempts, "incorrect number of attempts for " + command);
+        }
+    }
+    return Task.CompletedTask;
+});
+
 await Test("I/O failure plus Dispose failure cannot kill processing or retain stale connection", async () =>
 {
     var data = Data("double-failure");

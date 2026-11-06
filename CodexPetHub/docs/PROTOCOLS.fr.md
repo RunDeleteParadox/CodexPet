@@ -30,6 +30,8 @@ toute commande de contrôle. Le numéro COM est seulement un point de connexion.
 | `SLEEP`, `WAKE` | Éteint ou réveille l'écran, USB maintenu |
 | `SOUND none/fanfare/voice` | Choisit le son, sans le jouer ; firmware 1.1.7+ |
 
+Le Hub attend chaque réponse pendant 1,8 seconde. En l’absence de réponse à `INFO`, `STATUS`, `STATE`, `BRIGHTNESS` ou `SOUND`, il renvoie la commande une fois. Si la relance réussit, il attend la réponse à un `PING` pour écarter toute réponse en double avant de poursuivre. Chaque commande `REACT` fait l’objet d’une seule tentative.
+
 Seule `REACT success` joue le son. Le Hub protège cette réaction cinq secondes
 et garde en mémoire les nouveaux états pour la suite. La veille et les tests
 manuels peuvent prendre la priorité. Les erreurs de transport provoquent une

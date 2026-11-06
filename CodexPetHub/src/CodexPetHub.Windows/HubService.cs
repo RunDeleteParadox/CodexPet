@@ -191,10 +191,18 @@ internal sealed class HubService : IDisposable
                     if (pet.Connected)
                     {
                         var desired = state.Resolve(config, now);
-                        if (pet.Synchronize(desired)) journal.Write("presentation-ack", "Presentation: " + desired.Expression + (desired.Sleeping ? " (sleep)" : " (awake)"),
-                            new { desired.Expression, desired.Sleeping, desired.Brightness, desired.Reaction,
-                                causes = new { state.ManualSleep, state.Locked, state.DisplayOff, state.Suspended } });
-                        if (now >= nextStatus) { pet.RefreshStatus(); nextStatus = now.AddSeconds(2); }
+                        if (pet.Synchronize(desired))
+                        {
+                            nextStatus = DateTimeOffset.UtcNow.AddSeconds(2);
+                            journal.Write("presentation-ack", "Presentation: " + desired.Expression + (desired.Sleeping ? " (sleep)" : " (awake)"),
+                                new { desired.Expression, desired.Sleeping, desired.Brightness, desired.Reaction,
+                                    causes = new { state.ManualSleep, state.Locked, state.DisplayOff, state.Suspended } });
+                        }
+                        else if (now >= nextStatus)
+                        {
+                            pet.RefreshStatus();
+                            nextStatus = DateTimeOffset.UtcNow.AddSeconds(2);
+                        }
                     }
                     RecordDeviceHealth(now);
                 }
